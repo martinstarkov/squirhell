@@ -145,6 +145,11 @@
   <ItemGroup>
     <ClCompile Include="src\Application.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="vendor\protegon\protegon\protegon.vcxproj">
+      <Project>{24d5c074-cc32-42d2-b1a1-8b41f55bc69a}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
