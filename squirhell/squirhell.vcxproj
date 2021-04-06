@@ -150,7 +150,9 @@
     <ClCompile Include="src\Application.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\components\FlipComponent.h" />
     <ClInclude Include="src\core\Engine.h" />
+    <ClInclude Include="src\core\Hell.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\protegon\protegon\protegon.vcxproj">

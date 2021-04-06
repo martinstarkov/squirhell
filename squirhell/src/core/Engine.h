@@ -1,16 +1,18 @@
 #pragma once
 
 #include <protegon.h>
+#include "Hell.h"
 
 class Squirhell : public engine::Engine {
 public:
+	Hell hell;
 	void Init() {
-		std::cout << "Init" << std::endl;
+		hell.Create();
 	}
 	void Update() {
-		std::cout << "Update" << std::endl;
+		hell.Update();
 	}
 	void Render() {
-		std::cout << "Render" << std::endl;
+		hell.Render();
 	}
 };
