@@ -1,6 +1,5 @@
 #pragma once
 #include <protegon.h>
-#include "components/FlipComponent.h"
 
 class Hell : public engine::BaseWorld {
 public:
@@ -10,7 +9,6 @@ public:
 		manager.Refresh();
 		auto& pc = player.AddComponent<TransformComponent>(V2_int{ 400,300 });
 		auto& sc = player.AddComponent<SizeComponent>(V2_int{ 40,30 });
-		player.AddComponent<FlipComponent>();
 		player.AddComponent<RenderComponent>(engine::BLUE);
 		engine::TextureManager::Load("player", "resources/player.png");
 		auto circle = new Circle(sc.size.x / 2);
@@ -18,32 +16,44 @@ public:
 		player.AddComponent<RigidBodyComponent>(body);
 	}
 	virtual void Update() {
-		auto [pc, sc, rc, rbc, fc] = player.GetComponents<TransformComponent, SizeComponent, RenderComponent, RigidBodyComponent, FlipComponent>();
-		if (engine::InputHandler::KeyPressed(Key::W) && !engine::InputHandler::KeyPressed(Key::S)) {
+		auto [pc, sc, rc, rbc] = player.GetComponents<TransformComponent, SizeComponent, RenderComponent, RigidBodyComponent>();
+		
+		if (engine::InputHandler::KeyPressed(Key::W) && engine::InputHandler::KeyReleased(Key::S)) {
 			rbc.body->velocity.y = -speed.y;
-			fc.direction_y = Flip::NONE;
-		} else if (engine::InputHandler::KeyPressed(Key::S) && !engine::InputHandler::KeyPressed(Key::W)) {
+			pc.rotation = 0.0;
+		} else if (engine::InputHandler::KeyPressed(Key::S) && engine::InputHandler::KeyReleased(Key::W)) {
 			rbc.body->velocity.y = speed.y;
-			fc.direction_y = Flip::VERTICAL;
+			pc.rotation = 180.0;
 		} else {
 			rbc.body->velocity.y = 0;
 		}
-		if (engine::InputHandler::KeyPressed(Key::A) && !engine::InputHandler::KeyPressed(Key::D)) {
+
+		if (engine::InputHandler::KeyPressed(Key::A) && engine::InputHandler::KeyReleased(Key::D)) {
 			rbc.body->velocity.x = -speed.x;
-			fc.direction_x = Flip::NONE;
-		} else if (engine::InputHandler::KeyPressed(Key::D) && !engine::InputHandler::KeyPressed(Key::A)) {
+			pc.rotation = 270.0;
+		} else if (engine::InputHandler::KeyPressed(Key::D) && engine::InputHandler::KeyReleased(Key::A)) {
 			rbc.body->velocity.x = speed.x;
-			fc.direction_x = Flip::HORIZONTAL;
+			pc.rotation = 90.0;
 		} else {
 			rbc.body->velocity.x = 0;
+		}
+		if ((engine::InputHandler::KeyPressed(Key::A) && engine::InputHandler::KeyPressed(Key::S)) || (engine::InputHandler::KeyPressed(Key::D) && engine::InputHandler::KeyPressed(Key::A))) {
+		} else if (engine::InputHandler::KeyPressed(Key::W) && engine::InputHandler::KeyPressed(Key::D)) {
+			pc.rotation = 0.0 + 45.0;
+		} else if (engine::InputHandler::KeyPressed(Key::S) && engine::InputHandler::KeyPressed(Key::D)) {
+			pc.rotation = 90 + 45.0;
+		} else if (engine::InputHandler::KeyPressed(Key::S) && engine::InputHandler::KeyPressed(Key::A)) {
+			pc.rotation = 180.0 + 45.0;
+		} else if (engine::InputHandler::KeyPressed(Key::W) && engine::InputHandler::KeyPressed(Key::A)) {
+			pc.rotation = 270.0 + 45.0;
 		}
 		pc.position += rbc.body->velocity;
 	}
 	virtual void Clear() {}
 	virtual void Render() {
-		auto [pc, sc, rc, rbc, fc] = player.GetComponents<TransformComponent, SizeComponent, RenderComponent, RigidBodyComponent, FlipComponent>();
+		auto [pc, sc, rc, rbc] = player.GetComponents<TransformComponent, SizeComponent, RenderComponent, RigidBodyComponent>();
 		AABB player_rect{ pc.position, sc.size };
-		engine::TextureManager::DrawRectangle("player", { 0,0 }, { 16, 16 }, pc.position, sc.size, static_cast<Flip>((int)fc.direction_x | (int)fc.direction_y));
+		engine::TextureManager::DrawRectangle("player", { 0,0 }, { 16, 16 }, pc.position, sc.size, Flip::NONE, nullptr, pc.rotation);
 	}
 	virtual void Reset() {}
 	virtual void SetPlayer(const ecs::Entity& new_player) {
