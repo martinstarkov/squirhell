@@ -2,7 +2,7 @@
 
 #include <protegon.h>
 
-class Squirhell : public protegon::Engine {
+class Squirhell : public engine::Engine {
 public:
 	void Init() {
 		std::cout << "Init" << std::endl;

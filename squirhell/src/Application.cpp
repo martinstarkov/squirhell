@@ -2,7 +2,7 @@
 
 int main(int c, char** v) {
 
-	protegon::Engine::Start<Squirhell>("Squirhell", 400, 400, 60);
+	engine::Engine::Start<Squirhell>("Squirhell", 400, 300, 60);
 
 	return 0;
 }

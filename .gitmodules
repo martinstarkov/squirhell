@@ -1,0 +1,4 @@
+[submodule "protegon"]
+	path = squirhell/vendor/protegon
+	url = https://github.com/martinstarkov/protegon
+	branch = main
