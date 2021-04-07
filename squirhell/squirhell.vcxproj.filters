@@ -32,5 +32,17 @@
     <ClInclude Include="src\components\TagComponents.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\factories\CreatePlayer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\factories\CreateBullet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\RigidBodySystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\BulletRenderSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

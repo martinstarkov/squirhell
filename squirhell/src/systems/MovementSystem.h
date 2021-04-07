@@ -4,7 +4,7 @@
 
 class MovementSystem : public ecs::System<PlayerInputComponent, TransformComponent, RigidBodyComponent>{
 public:
-	V2_double speed{ 5,5 };
+	V2_double speed{ 3,3 };
 	void Update() override {
 		for (auto [entity, pic, tc, rbc] : entities) {
 			if (engine::InputHandler::KeyPressed(Key::W) && engine::InputHandler::KeyReleased(Key::S)) {
@@ -23,7 +23,7 @@ public:
 				rbc.body->velocity.x = 0;
 			}
 			if (rbc.body->velocity.MagnitudeSquared() != 0) {
-				tc.rotation = 90 + engine::math::RadiansToDegrees(std::atan2(rbc.body->velocity.y, rbc.body->velocity.x));
+				tc.rotation = engine::math::PI<double> / 2 + std::atan2(rbc.body->velocity.y, rbc.body->velocity.x);
 			}
 		}
 	}
