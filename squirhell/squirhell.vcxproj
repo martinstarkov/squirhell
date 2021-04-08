@@ -150,12 +150,15 @@
     <ClCompile Include="src\Application.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\components\AmmoComponent.h" />
+    <ClInclude Include="src\components\EntitySizeComponent.h" />
     <ClInclude Include="src\components\TagComponents.h" />
     <ClInclude Include="src\core\Engine.h" />
     <ClInclude Include="src\core\Hell.h" />
     <ClInclude Include="src\factories\CreateBullet.h" />
     <ClInclude Include="src\factories\CreatePlayer.h" />
     <ClInclude Include="src\systems\BulletRenderSystem.h" />
+    <ClInclude Include="src\systems\FiringSystem.h" />
     <ClInclude Include="src\systems\MovementSystem.h" />
     <ClInclude Include="src\systems\RigidBodySystem.h" />
   </ItemGroup>

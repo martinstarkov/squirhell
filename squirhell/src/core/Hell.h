@@ -1,9 +1,14 @@
 #pragma once
+
 #include <protegon.h>
+
 #include "components/TagComponents.h"
+
 #include "systems/MovementSystem.h"
 #include "systems/RigidBodySystem.h"
 #include "systems/BulletRenderSystem.h"
+#include "systems/FiringSystem.h"
+
 #include "factories/CreatePlayer.h"
 #include "factories/CreateBullet.h"
 
@@ -11,26 +16,24 @@ class Hell : public engine::BaseWorld {
 public:
 	V2_int player_size{ 16, 16 };
 	V2_double scale{ 4, 4 };
+	engine::Timer timer;
 	void Create() {
 		player = CreatePlayer(manager, player_size, scale);
 		manager.Refresh();
+		timer.Start();
 	}
 	virtual void Update() {
-		auto [tc, sc, rc, rbc] = player.GetComponents<TransformComponent, SizeComponent, RenderComponent, RigidBodyComponent>();
+		auto [tc, sc, rc, rbc] = player.GetComponents<TransformComponent, EntitySizeComponent, RenderComponent, RigidBodyComponent>();
+		manager.UpdateSystem<FiringSystem>();
 		manager.UpdateSystem<MovementSystem>();
 		manager.UpdateSystem<RigidBodySystem>();
-		if (engine::InputHandler::KeyDown(Key::SPACE)) {
-			bullet = CreateBullet(manager, tc, player_size, scale);
-			manager.Refresh();
-		}
 		manager.UpdateSystem<LifetimeSystem>();
 	}
 	virtual void Render() {
 
 		manager.UpdateSystem<BulletRenderSystem>();
-		auto [tc, sc, rc, rbc] = player.GetComponents<TransformComponent, SizeComponent, RenderComponent, RigidBodyComponent>();
-		AABB player_rect{ tc.position, sc.size };
-		engine::TextureManager::DrawRectangle("player", { 0,0 }, { 16, 16 }, tc.position, sc.size, Flip::NONE, nullptr, engine::math::RadiansToDegrees(tc.rotation));
+		auto [tc, sc, rc, rbc] = player.GetComponents<TransformComponent, EntitySizeComponent, RenderComponent, RigidBodyComponent>();
+		engine::TextureManager::DrawRectangle("player", { 0,0 }, sc.size, tc.position, sc.size * sc.scale, Flip::NONE, nullptr, engine::math::RadiansToDegrees(tc.rotation));
 	}
 	virtual void Reset() {}
 	virtual void Clear() {}
