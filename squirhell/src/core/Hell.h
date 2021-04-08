@@ -24,11 +24,11 @@ public:
 		manager.UpdateSystem<LifetimeSystem>();
 	}
 	virtual void Render() {
-		manager.UpdateSystem<BulletRenderSystem>();
 
 		auto [tc, sc, rc, rbc] = player.GetComponents<TransformComponent, SizeComponent, RenderComponent, RigidBodyComponent>();
 		AABB player_rect{ tc.position, sc.size };
 		engine::TextureManager::DrawRectangle("player", { 0,0 }, { 16, 16 }, tc.position, sc.size, Flip::NONE, nullptr, engine::math::RadiansToDegrees(tc.rotation));
+		manager.UpdateSystem<BulletRenderSystem>();
 	}
 	virtual void Reset() {}
 	virtual void Clear() {}
