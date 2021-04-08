@@ -1,5 +1,7 @@
 #pragma once
+
 #include <protegon.h>
+
 #include "components/TagComponents.h"
 
 class BulletRenderSystem : public ecs::System<BulletComponent, TransformComponent, RenderComponent, RigidBodyComponent> {

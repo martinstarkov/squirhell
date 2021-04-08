@@ -148,19 +148,27 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\core\Hell.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\components\AmmoComponent.h" />
-    <ClInclude Include="src\components\EntitySizeComponent.h" />
+    <ClInclude Include="src\components\HealthComponent.h" />
+    <ClInclude Include="src\components\HitboxComponent.h" />
+    <ClInclude Include="src\components\SpriteKeyComponent.h" />
     <ClInclude Include="src\components\TagComponents.h" />
     <ClInclude Include="src\core\Engine.h" />
     <ClInclude Include="src\core\Hell.h" />
+    <ClInclude Include="src\factories\CreateAcorn.h" />
     <ClInclude Include="src\factories\CreateBullet.h" />
     <ClInclude Include="src\factories\CreatePlayer.h" />
     <ClInclude Include="src\systems\BulletRenderSystem.h" />
     <ClInclude Include="src\systems\FiringSystem.h" />
+    <ClInclude Include="src\systems\GameSystems.h" />
+    <ClInclude Include="src\systems\HealthSystem.h" />
+    <ClInclude Include="src\systems\HitboxCollisionSystem.h" />
     <ClInclude Include="src\systems\MovementSystem.h" />
     <ClInclude Include="src\systems\RigidBodySystem.h" />
+    <ClInclude Include="src\systems\SpriteRenderSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\protegon\protegon\protegon.vcxproj">
