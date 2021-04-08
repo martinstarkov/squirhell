@@ -9,8 +9,10 @@
 
 class Hell : public engine::BaseWorld {
 public:
+	V2_int player_size{ 16, 16 };
+	V2_double scale{ 4, 4 };
 	void Create() {
-		player = CreatePlayer(manager);
+		player = CreatePlayer(manager, player_size, scale);
 		manager.Refresh();
 	}
 	virtual void Update() {
@@ -18,17 +20,17 @@ public:
 		manager.UpdateSystem<MovementSystem>();
 		manager.UpdateSystem<RigidBodySystem>();
 		if (engine::InputHandler::KeyDown(Key::SPACE)) {
-			bullet = CreateBullet(manager, tc);
+			bullet = CreateBullet(manager, tc, player_size, scale);
 			manager.Refresh();
 		}
 		manager.UpdateSystem<LifetimeSystem>();
 	}
 	virtual void Render() {
 
+		manager.UpdateSystem<BulletRenderSystem>();
 		auto [tc, sc, rc, rbc] = player.GetComponents<TransformComponent, SizeComponent, RenderComponent, RigidBodyComponent>();
 		AABB player_rect{ tc.position, sc.size };
 		engine::TextureManager::DrawRectangle("player", { 0,0 }, { 16, 16 }, tc.position, sc.size, Flip::NONE, nullptr, engine::math::RadiansToDegrees(tc.rotation));
-		manager.UpdateSystem<BulletRenderSystem>();
 	}
 	virtual void Reset() {}
 	virtual void Clear() {}
