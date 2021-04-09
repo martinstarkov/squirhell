@@ -152,6 +152,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\components\AmmoComponent.h" />
+    <ClInclude Include="src\components\AmmoPackComponent.h" />
     <ClInclude Include="src\components\HealthComponent.h" />
     <ClInclude Include="src\components\HitboxComponent.h" />
     <ClInclude Include="src\components\SpriteKeyComponent.h" />
@@ -159,6 +160,7 @@
     <ClInclude Include="src\core\Engine.h" />
     <ClInclude Include="src\core\Hell.h" />
     <ClInclude Include="src\factories\CreateAcorn.h" />
+    <ClInclude Include="src\factories\CreateAmmoPack.h" />
     <ClInclude Include="src\factories\CreateBullet.h" />
     <ClInclude Include="src\factories\CreatePlayer.h" />
     <ClInclude Include="src\systems\BulletRenderSystem.h" />

@@ -13,8 +13,10 @@ static ecs::Entity CreatePlayer(ecs::Manager& manager, const V2_int& sprite_size
 	auto& sc = player.AddComponent<SizeComponent>(sprite_size);
 	player.AddComponent<SpriteKeyComponent>("player");
 	player.AddComponent<RenderComponent>(engine::BLUE);
-	auto circle = new Circle(sc.size.x / 2);
+	auto radius = sc.size.x / 2 * Hell::GetScale().x;
+	auto circle = new Circle(sc.size.x / 2 * Hell::GetScale().x);
 	auto body = new Body(std::move(circle), pc.position);
 	player.AddComponent<RigidBodyComponent>(std::move(body));
+	player.AddComponent<HitboxComponent>(new CircleHitbox(radius), V2_int{ radius, radius });
 	return player;
 }

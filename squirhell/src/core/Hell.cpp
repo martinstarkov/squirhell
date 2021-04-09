@@ -8,6 +8,7 @@
 #include "factories/CreatePlayer.h"
 #include "factories/CreateBullet.h"
 #include "factories/CreateAcorn.h"
+#include "factories/CreateAmmoPack.h"
 
 V2_double Hell::GetScale() {
 	return { 4, 4 };
@@ -19,6 +20,7 @@ void Hell::Create() {
 		CreateAcorn(manager, V2_double::Random(0, engine::Engine::GetScreenWidth(), 0, engine::Engine::GetScreenHeight()));
 	}
 	
+	CreateAmmoPack(manager, V2_double::Random(0, engine::Engine::GetScreenWidth(), 0, engine::Engine::GetScreenHeight()), 10);
 
 	player = CreatePlayer(manager, { 16, 16 });
 	manager.Refresh();
@@ -31,6 +33,7 @@ void Hell::Update() {
 	manager.UpdateSystem<RigidBodySystem>();
 	manager.UpdateSystem<HitboxCollisionSystem>();
 	manager.UpdateSystem<ShootableSystem>();
+	manager.UpdateSystem<PickUpSystem>();
 	manager.UpdateSystem<LifetimeSystem>();
 	manager.UpdateSystem<HealthSystem>();
 }

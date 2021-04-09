@@ -13,11 +13,13 @@ public:
 	void Init() {
 		engine::TextureManager::Load("player", "resources/player.png");
 		engine::TextureManager::Load("acorn", "resources/acorn.png");
+		engine::TextureManager::Load("ammopack", "resources/ammopack.png");
 		hell.GetManager().AddSystem<FiringSystem>();
 		hell.GetManager().AddSystem<MovementSystem>();
 		hell.GetManager().AddSystem<SpriteRenderSystem>();
 		hell.GetManager().AddSystem<HitboxCollisionSystem>();
 		hell.GetManager().AddSystem<ShootableSystem>();
+		hell.GetManager().AddSystem<PickUpSystem>();
 		hell.GetManager().AddSystem<HealthSystem>();
 		hell.GetManager().AddSystem<RigidBodySystem>();
 		hell.GetManager().AddSystem<BulletRenderSystem>();

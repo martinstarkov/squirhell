@@ -2,6 +2,8 @@
 
 #include "components/HitboxComponent.h"
 #include "components/HealthComponent.h"
+#include "components/AmmoPackComponent.h"
+#include "components/AmmoComponent.h"
 
 #include "core/Hell.h"
 
@@ -37,7 +39,7 @@ public:
 						if (type2 == HitboxType::CIRCLE) {
 							bool colliding = CirclevsCircle(tc.position + hc.offset, tc2.position + hc2.offset, hc.shape->GetRadius(), hc.shape->GetRadius());
 							if (colliding && !Contains(hc.colliders, entity2)) {
-								LOG(tc.position << hc.offset << tc2.position << hc2.offset);
+								//LOG(tc.position << hc.offset << tc2.position << hc2.offset);
 								hc.colliders.emplace_back(entity2);
 							}
 						} else if (type2 == HitboxType::RECTANGLE) {
@@ -64,6 +66,22 @@ public:
 				if (e.HasComponent<BulletComponent>()) {
 					health.health_points -= e.GetComponent<BulletComponent>().damage;
 					e.Destroy(); // destroy bullet upon hit.
+				}
+			}
+			hc.colliders.clear();
+		}
+		GetManager().Refresh();
+	}
+};
+
+class PickUpSystem : public ecs::System<PlayerInputComponent, AmmoComponent, HitboxComponent> {
+public:
+	void Update() {
+		for (auto [entity, pic, ac, hc] : entities) {
+			for (auto e : hc.colliders) {
+				if (e.HasComponent<AmmoPackComponent>()) {
+					ac.bullets += e.GetComponent<AmmoPackComponent>().ammo;
+					e.Destroy(); // destroy ammopack upon hit.
 				}
 			}
 			hc.colliders.clear();

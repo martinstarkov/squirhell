@@ -13,3 +13,7 @@ struct BulletComponent {
 struct ShootableComponent {
 	ShootableComponent() = default;
 };
+
+struct PickUpComponent {
+	PickUpComponent() = default;
+};
