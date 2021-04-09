@@ -24,6 +24,7 @@ public:
 		hell.GetManager().AddSystem<RigidBodySystem>();
 		hell.GetManager().AddSystem<BulletRenderSystem>();
 		hell.GetManager().AddSystem<LifetimeSystem>();
+		hell.GetManager().AddSystem<StatDisplaySystem>();
 		hell.Create();
 	}
 	void Update() {

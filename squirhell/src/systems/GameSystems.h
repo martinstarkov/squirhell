@@ -7,3 +7,4 @@
 #include "SpriteRenderSystem.h"
 #include "HitboxCollisionSystem.h"
 #include "HealthSystem.h"
+#include "StatDisplaySystem.h"

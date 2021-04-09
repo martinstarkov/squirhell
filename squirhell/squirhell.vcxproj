@@ -171,6 +171,7 @@
     <ClInclude Include="src\systems\MovementSystem.h" />
     <ClInclude Include="src\systems\RigidBodySystem.h" />
     <ClInclude Include="src\systems\SpriteRenderSystem.h" />
+    <ClInclude Include="src\systems\StatDisplaySystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\protegon\protegon\protegon.vcxproj">

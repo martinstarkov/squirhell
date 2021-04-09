@@ -41,4 +41,5 @@ void Hell::Update() {
 void Hell::Render() {
 	manager.UpdateSystem<BulletRenderSystem>();
 	manager.UpdateSystem<SpriteRenderSystem>();
+	manager.UpdateSystem<StatDisplaySystem>();
 }

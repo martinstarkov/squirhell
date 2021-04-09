@@ -83,5 +83,8 @@
     <ClInclude Include="src\components\AmmoPackComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\systems\StatDisplaySystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
