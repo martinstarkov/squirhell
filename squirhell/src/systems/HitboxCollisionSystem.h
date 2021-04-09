@@ -39,7 +39,7 @@ public:
 						if (type2 == HitboxType::CIRCLE) {
 							bool colliding = CirclevsCircle(tc.position + hc.offset, tc2.position + hc2.offset, hc.shape->GetRadius(), hc.shape->GetRadius());
 							if (colliding && !Contains(hc.colliders, entity2)) {
-								//LOG(tc.position << hc.offset << tc2.position << hc2.offset);
+								LOG(tc.position << hc.offset << tc2.position << hc2.offset);
 								hc.colliders.emplace_back(entity2);
 							}
 						} else if (type2 == HitboxType::RECTANGLE) {
@@ -58,6 +58,8 @@ public:
 	}
 };
 
+// TODO: Fix clearing of collisions, currently only clears collisions in damage system.
+
 class ShootableSystem : public ecs::System<ShootableComponent, HealthComponent, HitboxComponent> {
 public:
 	void Update() {
@@ -68,7 +70,6 @@ public:
 					e.Destroy(); // destroy bullet upon hit.
 				}
 			}
-			hc.colliders.clear();
 		}
 		GetManager().Refresh();
 	}
@@ -82,6 +83,21 @@ public:
 				if (e.HasComponent<AmmoPackComponent>()) {
 					ac.bullets += e.GetComponent<AmmoPackComponent>().ammo;
 					e.Destroy(); // destroy ammopack upon hit.
+				}
+			}
+		}
+		GetManager().Refresh();
+	}
+};
+
+class DamageSystem : public ecs::System<PlayerInputComponent, HealthComponent, HitboxComponent> {
+public:
+	void Update() {
+		for (auto [entity, pic, health, hc] : entities) {
+			for (auto e : hc.colliders) {
+				if (e.HasComponent<EnemyComponent>()) {
+					health.health_points -= e.GetComponent<EnemyComponent>().damage;
+					e.Destroy();
 				}
 			}
 			hc.colliders.clear();

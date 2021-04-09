@@ -34,6 +34,7 @@ void Hell::Update() {
 	manager.UpdateSystem<HitboxCollisionSystem>();
 	manager.UpdateSystem<ShootableSystem>();
 	manager.UpdateSystem<PickUpSystem>();
+	manager.UpdateSystem<DamageSystem>();
 	manager.UpdateSystem<LifetimeSystem>();
 	manager.UpdateSystem<HealthSystem>();
 }

@@ -14,6 +14,12 @@ struct ShootableComponent {
 	ShootableComponent() = default;
 };
 
+struct EnemyComponent {
+	EnemyComponent() = default;
+	EnemyComponent(int damage) : damage{ damage } {}
+	int damage{ 0 };
+};
+
 struct PickUpComponent {
 	PickUpComponent() = default;
 };

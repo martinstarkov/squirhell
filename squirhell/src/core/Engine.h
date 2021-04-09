@@ -19,6 +19,7 @@ public:
 		hell.GetManager().AddSystem<SpriteRenderSystem>();
 		hell.GetManager().AddSystem<HitboxCollisionSystem>();
 		hell.GetManager().AddSystem<ShootableSystem>();
+		hell.GetManager().AddSystem<DamageSystem>();
 		hell.GetManager().AddSystem<PickUpSystem>();
 		hell.GetManager().AddSystem<HealthSystem>();
 		hell.GetManager().AddSystem<RigidBodySystem>();
