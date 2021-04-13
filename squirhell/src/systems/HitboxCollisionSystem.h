@@ -39,7 +39,7 @@ public:
 						if (type2 == HitboxType::CIRCLE) {
 							bool colliding = CirclevsCircle(tc.position + hc.offset, tc2.position + hc2.offset, hc.shape->GetRadius(), hc.shape->GetRadius());
 							if (colliding && !Contains(hc.colliders, entity2)) {
-								LOG(tc.position << hc.offset << tc2.position << hc2.offset);
+								//LOG(tc.position << hc.offset << tc2.position << hc2.offset);
 								hc.colliders.emplace_back(entity2);
 							}
 						} else if (type2 == HitboxType::RECTANGLE) {

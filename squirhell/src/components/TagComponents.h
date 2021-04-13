@@ -1,5 +1,7 @@
 #pragma once
 
+#include<protegon.h>
+
 struct PlayerInputComponent {
 	PlayerInputComponent() = default;
 };
@@ -22,4 +24,16 @@ struct EnemyComponent {
 
 struct PickUpComponent {
 	PickUpComponent() = default;
+};
+
+struct DeathScreenComponent {
+	DeathScreenComponent() = default;
+};
+
+struct WaveTimerComponent {
+	WaveTimerComponent() {
+		timer.Start();
+	}
+	engine::Timer timer;
+	int next = 0;
 };

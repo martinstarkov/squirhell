@@ -151,6 +151,7 @@
     <ClCompile Include="src\core\Hell.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\components\AIMovementComponent.h" />
     <ClInclude Include="src\components\AmmoComponent.h" />
     <ClInclude Include="src\components\AmmoPackComponent.h" />
     <ClInclude Include="src\components\HealthComponent.h" />
@@ -162,8 +163,12 @@
     <ClInclude Include="src\factories\CreateAcorn.h" />
     <ClInclude Include="src\factories\CreateAmmoPack.h" />
     <ClInclude Include="src\factories\CreateBullet.h" />
+    <ClInclude Include="src\factories\CreateDeathScreen.h" />
+    <ClInclude Include="src\factories\CreateEnemy.h" />
     <ClInclude Include="src\factories\CreatePlayer.h" />
+    <ClInclude Include="src\systems\AIMovementSystem.h" />
     <ClInclude Include="src\systems\BulletRenderSystem.h" />
+    <ClInclude Include="src\systems\DeathScreenRenderSystem.h" />
     <ClInclude Include="src\systems\FiringSystem.h" />
     <ClInclude Include="src\systems\GameSystems.h" />
     <ClInclude Include="src\systems\HealthSystem.h" />

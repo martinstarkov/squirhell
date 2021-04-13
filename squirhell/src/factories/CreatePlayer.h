@@ -8,6 +8,8 @@
 static ecs::Entity CreatePlayer(ecs::Manager& manager, const V2_int& sprite_size) {
 	auto player = manager.CreateEntity();
 	player.AddComponent<PlayerInputComponent>();
+	auto& timer = player.AddComponent<WaveTimerComponent>();
+	timer.next = 5;
 	player.AddComponent<HealthComponent>(100);
 	player.AddComponent<AmmoComponent>(100, 0.1, 1); // bullets, reload delay, lifetime
 	auto& pc = player.AddComponent<TransformComponent>(V2_int{ 400,300 });
