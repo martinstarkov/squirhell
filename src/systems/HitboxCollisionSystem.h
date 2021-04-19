@@ -9,9 +9,13 @@ public:
 		for (auto [entity, hitbox, transform, shape] : entities) {
 			for (auto [entity2, hitbox2, transform2, shape2] : entities) {
 				if (entity != entity2 && !(HasExcludedTag(entity, hitbox2.ignored_tag_types) || HasExcludedTag(entity2, hitbox.ignored_tag_types))) {
+					auto offset_transform{ transform };
+					offset_transform.position += hitbox.offset;
+					auto offset_transform2{ transform2 };
+					offset_transform2.position += hitbox.offset;
 					auto manifold{ StaticCollisionCheck(
-						transform,
-						transform2,
+						offset_transform,
+						offset_transform2,
 						shape.shape,
 						shape2.shape
 					)};

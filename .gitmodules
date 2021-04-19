@@ -1,0 +1,4 @@
+[submodule "protegon"]
+	path = vendor/protegon
+	url = http://github.com/martinstarkov/protegon.git
+	branch = main

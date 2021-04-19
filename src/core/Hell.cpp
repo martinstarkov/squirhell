@@ -27,9 +27,9 @@ void Hell::Update() {
 		if (player.HasComponent<WaveTimerComponent>()) {
 			auto& timer = player.GetComponent<WaveTimerComponent>();
 			if (timer.timer.ElapsedSeconds() >= timer.next) {
-				engine::RNG<int> rng{ 5,20 };
-				auto barrels = rng();
-				for (auto i = 0; i < barrels; ++i) {
+				engine::RNG<int> rng{ 1,2 };
+				auto enemies = rng();
+				for (auto i = 0; i < enemies; ++i) {
 					CreateEnemy(manager, V2_double::Random(
 						0, 
 						display_size.x, 

@@ -6,12 +6,17 @@ using namespace engine;
 
 struct SpriteKeyComponent {
 	SpriteKeyComponent() = default;
-	SpriteKeyComponent(const char* key) : key{ key } {}
+	SpriteKeyComponent(const char* key, const V2_int& sprite_size) : 
+		key{ key },
+		sprite_size{ sprite_size } {}
 	const char* key{ nullptr };
+	V2_int sprite_size;
 };
 
 struct HitboxComponent {
 	HitboxComponent() = default;
+	HitboxComponent(const V2_int& offset) : offset{ offset } {}
+	V2_int offset;
 	std::vector<ecs::Entity> colliders;
 	std::vector<int> ignored_tag_types;
 };
