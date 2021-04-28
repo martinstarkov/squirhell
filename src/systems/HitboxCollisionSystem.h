@@ -20,8 +20,12 @@ public:
 						shape2.shape
 					)};
 					if (!manifold.normal.IsZero()) {
-						transform.position -= manifold.penetration;
-						hitbox.colliders.emplace_back(entity2);
+						if (hitbox.function != nullptr) {
+							hitbox.function(entity2, manifold);
+						} else {
+							transform.position -= manifold.penetration;
+							hitbox.colliders.emplace_back(entity2);
+						}
 					}
 				}
 			}

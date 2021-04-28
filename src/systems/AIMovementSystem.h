@@ -6,7 +6,7 @@ class AIMovementSystem : public ecs::System<AIMovementComponent, Transform, Rigi
 public:
 	void Update() override {
 		for (auto [entity, ai, transform, rigid_body] : entities) {
-			for (auto [player, transform2, player_input] : GetManager().GetEntityComponents<Transform, PlayerInputComponent>()) {
+			for (auto [player, transform2, player_input] : GetManager().GetEntitiesAndComponents<Transform, PlayerInputComponent>()) {
 				auto speed = ai.speed;
 				auto direction_vector = (transform2.position - transform.position).Normalized();
 				rigid_body.velocity = speed * direction_vector;

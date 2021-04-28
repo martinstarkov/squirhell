@@ -13,20 +13,35 @@ public:
 	void Update() override {
 		for (auto [entity, transform, shape, sprite, hitbox] : entities) {
 			auto size{ sprite.sprite_size * Hell::GetScale() };
+			auto position = transform.position;
+			auto type = shape.shape->GetType();
+			if (type == engine::ShapeType::CIRCLE) {
+				position -= size / 2.0;
+			}
+			//V2_int center = V2_int{8,9} * Hell::GetScale();
+			V2_int center = size/2.0 + hitbox.offset * Hell::GetScale();
 			Renderer::DrawTexture(
 				sprite.key,
-				transform.position + hitbox.offset * Hell::GetScale() - size / 2.0,
+				position - hitbox.offset * Hell::GetScale(),
 				size,
 				{}, {},
-				nullptr,
+				&center,
 				math::RadiansToDegrees(transform.rotation),
 				Flip::NONE
 			);
-			Renderer::DrawCircle(
-				transform.position,
-				5 * Hell::GetScale().x,
-				colors::BLUE
-			);
+			if (type == engine::ShapeType::CIRCLE) {
+				Renderer::DrawCircle(
+					transform.position,
+					5 * Hell::GetScale().x,
+					colors::BLUE
+				);
+			} else if (type == engine::ShapeType::AABB) {
+				Renderer::DrawRectangle(
+					transform.position,
+					size,
+					colors::BLUE
+				);
+			}
 		}
 	}
 };

@@ -21,7 +21,7 @@ static ecs::Entity CreatePlayer(ecs::Manager& manager) {
 	player.AddComponent<TagComponent>(Hasher::HashCString("player"));
 	player.AddComponent<RigidBody>();
 	player.AddComponent<ShapeComponent>(Circle(radius));
-	auto& hitbox = player.AddComponent<HitboxComponent>(V2_int{ 0, 2 });
+	auto& hitbox = player.AddComponent<HitboxComponent>(V2_int{ 0, 3 });
 	hitbox.ignored_tag_types.push_back(Hasher::HashCString("bullet"));
 	return player;
 }

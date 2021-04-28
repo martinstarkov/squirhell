@@ -11,13 +11,13 @@ static ecs::Entity CreateBullet(ecs::Manager& manager, double lifetime, const Tr
 	V2_int sprite_size{ 16, 16 };
 	bullet.AddComponent<BulletComponent>(20); // damage
 	bullet.AddComponent<LifetimeComponent>(lifetime);
-	bullet.AddComponent<HitboxComponent>();
+	auto& hitbox = bullet.AddComponent<HitboxComponent>();
 	bullet.AddComponent<ShapeComponent>(Circle(radius));
 	bullet.AddComponent<TagComponent>(Hasher::HashCString("bullet"));
 
 	// Calculate offset necessary to center the bullet.
-
-	V2_double offset_from_top_left{ 5, 7 };
+	//3 5
+	V2_double offset_from_top_left{ 0, 5 };
 	V2_double distance_to_center{ -offset_from_top_left };
 	V2_double rotated_offset{
 		distance_to_center.x * std::cos(transform.rotation) - distance_to_center.y * std::sin(transform.rotation),

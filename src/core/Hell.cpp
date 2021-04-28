@@ -12,6 +12,7 @@ V2_double Hell::GetScale() {
 
 void Hell::Generate(ecs::Manager& manager) {
 	CreatePlayer(manager);
+	CreateWall(manager, V2_int{150,150});
 	manager.Refresh();
 }
 
@@ -37,7 +38,7 @@ void Hell::Update() {
 						display_size.y
 					));
 				}
-
+		
 				CreateAmmoPack(manager, 
 							   V2_double::Random(
 								   0, 

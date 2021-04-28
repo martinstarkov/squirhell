@@ -17,6 +17,7 @@ public:
 		TextureManager::Load("acorn", "resources/acorn.png");
 		TextureManager::Load("enemy", "resources/enemy.png");
 		TextureManager::Load("ammopack", "resources/ammopack.png");
+		TextureManager::Load("hell_wall", "resources/hellwall.png");
 		FontManager::Load("retro_gaming_24", "resources/fonts/retro_gaming.ttf", 24);
 		FontManager::Load("retro_gaming_16", "resources/fonts/retro_gaming.ttf", 16);
 		hell.manager.AddSystem<FiringSystem>();
