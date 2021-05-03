@@ -14,13 +14,14 @@ static ecs::Entity CreatePlayer(ecs::Manager& manager) {
 	timer.next = 5;
 	player.AddComponent<HealthComponent>(100);
 	player.AddComponent<AmmoComponent>(100, 0.1, 1); // bullets, reload delay, lifetime
-	auto& pc = player.AddComponent<Transform>(V2_int{ 400, 300 });
+	auto& pc = player.AddComponent<TransformComponent>(Transform{ V2_int{ 400, 300 } });
 	player.AddComponent<SpriteKeyComponent>("player", sprite_size);
-	player.AddComponent<Color>(colors::BLUE);
+	player.AddComponent<ColorComponent>(colors::BLUE);
 	auto radius = 5 * Hell::GetScale().x;
 	player.AddComponent<TagComponent>(Hasher::HashCString("player"));
-	player.AddComponent<RigidBody>();
+	player.AddComponent<RigidBodyComponent>();
 	player.AddComponent<ShapeComponent>(Circle(radius));
+	player.AddComponent<RangeComponent>((5 + 16 + 16) * Hell::GetScale().x);
 	auto& hitbox = player.AddComponent<HitboxComponent>(V2_int{ 0, 3 });
 	hitbox.ignored_tag_types.push_back(Hasher::HashCString("bullet"));
 	return player;

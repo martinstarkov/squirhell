@@ -11,3 +11,4 @@
 #include "StatDisplaySystem.h"
 #include "DeathScreenRenderSystem.h"
 #include "LifetimeSystem.h"
+#include "PlacementSystem.h"

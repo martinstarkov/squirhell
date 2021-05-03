@@ -58,6 +58,19 @@ struct PlayerInputComponent {
 	PlayerInputComponent() = default;
 };
 
+struct RangeComponent {
+	RangeComponent() = default;
+	RangeComponent(int range) : range{ range } {}
+	int range{ 0 };
+};
+
+struct PlacementComponent {
+	PlacementComponent() = default;
+	V2_int position;
+	V2_int size;
+	engine::Color color{ engine::colors::GREEN };
+};
+
 struct BulletComponent {
 	BulletComponent() = default;
 	BulletComponent(int damage) : damage{ damage } {}

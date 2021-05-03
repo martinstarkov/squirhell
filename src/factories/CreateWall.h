@@ -19,7 +19,7 @@ static ecs::Entity CreateWall(ecs::Manager& manager, const V2_double& position) 
 
 	V2_int sprite_size{ 16, 16 };
 	auto scaled_size = sprite_size * Hell::GetScale();
-	wall.AddComponent<Transform>(position);
+	wall.AddComponent<TransformComponent>(Transform{ position });
 	wall.AddComponent<SpriteKeyComponent>("hell_wall", sprite_size);
 	auto& hitbox = wall.AddComponent<HitboxComponent>();
 	hitbox.function = &WallCollision;

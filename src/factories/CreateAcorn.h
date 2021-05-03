@@ -10,7 +10,7 @@ static ecs::Entity CreateAcorn(ecs::Manager& manager, const V2_double& position)
 
 	V2_int sprite_size{ 16, 16 };
 	auto radius = 16 / 2 * Hell::GetScale().x;
-	acorn.AddComponent<Transform>(position);
+	acorn.AddComponent<TransformComponent>(Transform{ position });
 	acorn.AddComponent<ShootableComponent>();
 	acorn.AddComponent<HealthComponent>(100); // hit points
 	acorn.AddComponent<EnemyComponent>(60); // damage points

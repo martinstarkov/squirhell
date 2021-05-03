@@ -24,11 +24,11 @@ static ecs::Entity CreateBullet(ecs::Manager& manager, double lifetime, const Tr
 		distance_to_center.x * std::sin(transform.rotation) + distance_to_center.y * std::cos(transform.rotation)
 	};
 	auto offset{ offset_from_top_left + distance_to_center - rotated_offset };
-	auto& transform_component = bullet.AddComponent<Transform>(transform.position - offset * Hell::GetScale(), transform.rotation);
+	auto& transform_component = bullet.AddComponent<TransformComponent>(Transform{ transform.position - offset * Hell::GetScale(), transform.rotation });
 
-	bullet.AddComponent<Color>(colors::BLACK);
-	auto& rigid_body = bullet.AddComponent<RigidBody>();
+	bullet.AddComponent<ColorComponent>(colors::BLACK);
+	auto& rigid_body = bullet.AddComponent<RigidBodyComponent>();
 	double speed = 10;
-	rigid_body.velocity = speed * V2_double{ std::sin(transform_component.rotation), -std::cos(transform_component.rotation) };
+	rigid_body.body.velocity = speed * V2_double{ std::sin(transform_component.transform.rotation), -std::cos(transform_component.transform.rotation) };
 	return bullet;
 }

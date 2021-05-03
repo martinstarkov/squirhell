@@ -8,12 +8,12 @@
 
 using namespace engine;
 
-class SpriteRenderSystem : public ecs::System<Transform, ShapeComponent, SpriteKeyComponent, HitboxComponent> {
+class SpriteRenderSystem : public ecs::System<TransformComponent, ShapeComponent, SpriteKeyComponent, HitboxComponent> {
 public:
 	void Update() override {
 		for (auto [entity, transform, shape, sprite, hitbox] : entities) {
 			auto size{ sprite.sprite_size * Hell::GetScale() };
-			auto position = transform.position;
+			auto position = transform.transform.position;
 			auto type = shape.shape->GetType();
 			if (type == engine::ShapeType::CIRCLE) {
 				position -= size / 2.0;
@@ -26,18 +26,18 @@ public:
 				size,
 				{}, {},
 				&center,
-				math::RadiansToDegrees(transform.rotation),
+				math::RadiansToDegrees(transform.transform.rotation),
 				Flip::NONE
 			);
 			if (type == engine::ShapeType::CIRCLE) {
 				Renderer::DrawCircle(
-					transform.position,
+					transform.transform.position,
 					5 * Hell::GetScale().x,
 					colors::BLUE
 				);
 			} else if (type == engine::ShapeType::AABB) {
 				Renderer::DrawRectangle(
-					transform.position,
+					transform.transform.position,
 					size,
 					colors::BLUE
 				);

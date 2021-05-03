@@ -13,7 +13,7 @@ static ecs::Entity CreateAmmoPack(ecs::Manager& manager, const V2_double& positi
 	auto radius = sprite_size.x / 2 * Hell::GetScale().x;
 	ammo_pack.AddComponent<AmmoPackComponent>(ammo);
 	ammo_pack.AddComponent<PickUpComponent>();
-	ammo_pack.AddComponent<Transform>(position);
+	ammo_pack.AddComponent<TransformComponent>(Transform{ position });
 	ammo_pack.AddComponent<SpriteKeyComponent>("ammopack", sprite_size);
 	ammo_pack.AddComponent<ShapeComponent>(Circle(radius));
 	ammo_pack.AddComponent<HitboxComponent>();
