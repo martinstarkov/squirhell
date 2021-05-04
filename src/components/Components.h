@@ -37,6 +37,12 @@ struct AmmoPackComponent {
 	int ammo{ 0 }; // amount of ammo in the pack.
 };
 
+struct HealthPackComponent {
+	HealthPackComponent() = default;
+	HealthPackComponent(int health) : health{ health } {}
+	int health{ 0 }; // amount of health in the pack.
+};
+
 struct AmmoComponent {
 	AmmoComponent() = default;
 	AmmoComponent(int bullets, double reload_delay = 0.1, double lifetime = 1) : bullets{ bullets }, reload_delay{ reload_delay }, lifetime{ lifetime } {

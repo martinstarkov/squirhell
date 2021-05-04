@@ -22,6 +22,7 @@ void Hell::Create() {
 	TextureManager::Load("acorn", "resources/acorn.png");
 	TextureManager::Load("enemy", "resources/enemy.png");
 	TextureManager::Load("ammopack", "resources/ammopack.png");
+	TextureManager::Load("healthpack", "resources/healthpack.png");
 	TextureManager::Load("hell_wall", "resources/hellwall.png");
 	TextureManager::Load("grass", "resources/grass.png");
 	FontManager::Load("retro_gaming_24", "resources/fonts/retro_gaming.ttf", 24);
@@ -53,7 +54,7 @@ void Hell::Update() {
 		if (player.HasComponent<WaveTimerComponent>()) {
 			auto& timer = player.GetComponent<WaveTimerComponent>();
 			if (timer.timer.ElapsedSeconds() >= timer.next) {
-				engine::RNG<int> rng{ 1,2 };
+				engine::RNG<int> rng{ 3,8 };
 				auto enemies = rng();
 				for (auto i = 0; i < enemies; ++i) {
 					CreateEnemy(manager, V2_double::Random(

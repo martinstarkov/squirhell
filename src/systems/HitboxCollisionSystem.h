@@ -50,14 +50,18 @@ public:
 	}
 };
 
-class PickUpSystem : public ecs::System<PlayerInputComponent, AmmoComponent, HitboxComponent> {
+class PickUpSystem : public ecs::System<PlayerInputComponent, AmmoComponent, HealthComponent, HitboxComponent> {
 public:
 	void Update() {
-		for (auto [entity, player, ammo, hitbox] : entities) {
+		for (auto [entity, player, ammo, health, hitbox] : entities) {
 			for (auto e : hitbox.colliders) {
 				if (e.HasComponent<AmmoPackComponent>()) {
 					ammo.bullets += e.GetComponent<AmmoPackComponent>().ammo;
 					e.Destroy(); // destroy ammopack upon hit.
+				}
+				if (e.HasComponent<HealthPackComponent>()) {
+					health.health_points += e.GetComponent<HealthPackComponent>().health;
+					e.Destroy(); // destroy healthpack upon hit.
 				}
 			}
 		}
