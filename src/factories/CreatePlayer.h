@@ -10,6 +10,7 @@ static ecs::Entity CreatePlayer(ecs::Manager& manager) {
 	V2_int sprite_size{ 16, 16 };
 	auto player = manager.CreateEntity();
 	player.AddComponent<PlayerInputComponent>();
+	player.AddComponent<InventoryComponent2>();
 	auto& timer = player.AddComponent<WaveTimerComponent>();
 	timer.next = 5;
 	player.AddComponent<HealthComponent>(100);

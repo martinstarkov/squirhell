@@ -29,3 +29,18 @@ static ecs::Entity CreateGrass(ecs::Manager& manager, const V2_double& position)
 
 	return grass;
 }
+
+static ecs::Entity CreateGrassItem(ecs::Manager& manager, const V2_double& position) {
+	auto item = manager.CreateEntity();
+
+	V2_int sprite_size{ 8, 8 };
+	auto radius = sprite_size.x / 2 * Hell::GetScale().x;
+	item.AddComponent<ItemComponent>();
+	item.AddComponent<TagComponent>(Hasher::HashCString("grass"));
+	item.AddComponent<PickUpComponent>();
+	item.AddComponent<TransformComponent>(Transform{ position });
+	item.AddComponent<SpriteKeyComponent>("grass", sprite_size);
+	item.AddComponent<ShapeComponent>(Circle(radius));
+	item.AddComponent<HitboxComponent>();
+	return item;
+}

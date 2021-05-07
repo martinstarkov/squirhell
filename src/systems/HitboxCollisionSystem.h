@@ -12,7 +12,7 @@ public:
 					auto offset_transform{ transform };
 					offset_transform.transform.position += hitbox.offset;
 					auto offset_transform2{ transform2 };
-					offset_transform2.transform.position += hitbox.offset;
+					offset_transform2.transform.position += hitbox2.offset;
 					auto manifold{ StaticCollisionCheck(
 						offset_transform.transform,
 						offset_transform2.transform,
@@ -50,18 +50,25 @@ public:
 	}
 };
 
-class PickUpSystem : public ecs::System<PlayerInputComponent, AmmoComponent, HealthComponent, HitboxComponent> {
+class ItemSystem : public ecs::System<InventoryComponent2, HitboxComponent> {
 public:
 	void Update() {
-		for (auto [entity, player, ammo, health, hitbox] : entities) {
-			for (auto e : hitbox.colliders) {
-				if (e.HasComponent<AmmoPackComponent>()) {
-					ammo.bullets += e.GetComponent<AmmoPackComponent>().ammo;
-					e.Destroy(); // destroy ammopack upon hit.
-				}
-				if (e.HasComponent<HealthPackComponent>()) {
-					health.health_points += e.GetComponent<HealthPackComponent>().health;
-					e.Destroy(); // destroy healthpack upon hit.
+		for (auto [entity, inventory, hitbox] : entities) {
+			for (auto collider : hitbox.colliders) {
+				if (collider.HasComponent<ItemComponent>()) {
+					if (collider.HasComponent<PickUpComponent>()) {
+						inventory.Add(collider);
+						collider.RemoveComponent<PickUpComponent>();
+						collider.RemoveComponent<ItemComponent>();
+						collider.RemoveComponent<HitboxComponent>();
+					} else {
+						if (collider.HasComponent<HealthPackComponent>() && entity.HasComponent<HealthComponent>()) {
+							entity.GetComponent<HealthComponent>().health_points += collider.GetComponent<HealthPackComponent>().health;
+						} else if (collider.HasComponent<AmmoPackComponent>() && entity.HasComponent<AmmoComponent>()) {
+							entity.GetComponent<AmmoComponent>().bullets += collider.GetComponent<AmmoPackComponent>().ammo;
+						}
+						collider.Destroy();
+					}
 				}
 			}
 		}
@@ -73,10 +80,10 @@ class DamageSystem : public ecs::System<PlayerInputComponent, HealthComponent, H
 public:
 	void Update() {
 		for (auto [entity, player, health, hitbox] : entities) {
-			for (auto e : hitbox.colliders) {
-				if (e.HasComponent<EnemyComponent>()) {
-					health.health_points -= e.GetComponent<EnemyComponent>().damage;
-					e.Destroy();
+			for (auto collider : hitbox.colliders) {
+				if (collider.HasComponent<EnemyComponent>()) {
+					health.health_points -= collider.GetComponent<EnemyComponent>().damage;
+					collider.Destroy();
 				}
 			}
 			hitbox.colliders.clear();

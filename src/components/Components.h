@@ -1,8 +1,14 @@
 #pragma once
 
 #include <protegon.h>
+#include <unordered_map>
+#include <cassert>
 
 using namespace engine;
+
+struct PlayerInputComponent {
+	PlayerInputComponent() = default;
+};
 
 struct SpriteKeyComponent {
 	SpriteKeyComponent() = default;
@@ -22,6 +28,48 @@ struct HitboxComponent {
 	std::vector<ecs::Entity> colliders;
 	std::vector<int> ignored_tag_types;
 	CollisionFunction function{ nullptr };
+};
+
+struct InventoryComponent2 {
+	InventoryComponent2() = default;
+	// key:tag component id of entity, value:pair of entity and item count
+	std::unordered_map<int, std::pair<ecs::Entity, int>> inventory;
+
+	void Add(ecs::Entity& item) {
+		assert(item.HasComponent<TagComponent>() && "Cannot add item without TagComponent id to inventory");
+		auto id = item.GetComponent<TagComponent>().id;
+		auto it = inventory.find(id);
+		// inventory contains item
+		if (it != inventory.end()) {
+			// TODO: TEMPORARY reconsider assertion
+			//assert(entity == item);
+			auto& entity = it->second.first;
+			auto& count = it->second.second;
+			++count;
+		} else { //inventory does not contain item
+			inventory.emplace(id, std::pair<ecs::Entity, int>(item, 1));
+		}
+	}
+
+	void Remove(int item_id) {
+		auto it = inventory.find(item_id);
+		// inventory contains item
+		if (it != inventory.end()) {
+			auto& entity = it->second.first;
+			auto& count = it->second.second;
+			if (count > 1) {
+				--count;
+			} else {
+				inventory.erase(it);
+			}
+		}
+	}
+
+	bool Has(int item_id) const {
+		auto it = inventory.find(item_id);
+		return it != inventory.end() && it->second.second > 0;
+	}
+
 };
 
 struct HealthComponent {
@@ -60,10 +108,6 @@ struct AIMovementComponent {
 	int speed{ 0 }; // speed of enemy.
 };
 
-struct PlayerInputComponent {
-	PlayerInputComponent() = default;
-};
-
 struct RangeComponent {
 	RangeComponent() = default;
 	RangeComponent(int range) : range{ range } {}
@@ -91,6 +135,10 @@ struct EnemyComponent {
 	EnemyComponent() = default;
 	EnemyComponent(int damage) : damage{ damage } {}
 	int damage{ 0 };
+};
+
+struct ItemComponent {
+	ItemComponent() = default;
 };
 
 struct PickUpComponent {

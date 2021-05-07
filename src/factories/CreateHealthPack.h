@@ -12,7 +12,7 @@ static ecs::Entity CreateHealthPack(ecs::Manager& manager, const V2_double& posi
 	V2_int sprite_size{ 8, 8 };
 	auto radius = sprite_size.x / 2 * Hell::GetScale().x;
 	health_pack.AddComponent<HealthPackComponent>(health);
-	health_pack.AddComponent<PickUpComponent>();
+	health_pack.AddComponent<ItemComponent>();
 	health_pack.AddComponent<TransformComponent>(Transform{ position });
 	health_pack.AddComponent<SpriteKeyComponent>("healthpack", sprite_size);
 	health_pack.AddComponent<ShapeComponent>(Circle(radius));

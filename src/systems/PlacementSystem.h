@@ -4,10 +4,10 @@
 #include "components/Components.h"
 #include "factories/Factories.h"
 
-class PlacementSystem : public ecs::UESystem<PlayerInputComponent, TransformComponent, RangeComponent, ShapeComponent> {
+class PlacementSystem : public ecs::UESystem<PlayerInputComponent, InventoryComponent2, TransformComponent, RangeComponent, ShapeComponent> {
 public:
 	void Update() override {
-		auto [entity, input, transform, range, shape] = GetEntityAndComponents();
+		auto [entity, input, inventory, transform, range, shape] = GetEntityAndComponents();
 		if (engine::InputHandler::KeyPressed(Key::C)) {
 			auto& placement = entity.AddComponent<PlacementComponent>();
 			auto mouse_position = engine::InputHandler::GetMousePosition();
@@ -21,8 +21,10 @@ public:
 				auto size = V2_int{ 16, 16 } * Hell::GetScale();
 				placement.size = size;
 				placement.position = placement_position;
-				if (engine::InputHandler::MousePressed(MouseButton::RIGHT)) {
+				auto selected_item = Hasher::HashCString("grass");
+				if (engine::InputHandler::MousePressed(MouseButton::RIGHT) && inventory.Has(selected_item)) {
 					CreateGrass(GetManager(), placement_position);
+					inventory.Remove(selected_item);
 				}
 			}
 		} else {

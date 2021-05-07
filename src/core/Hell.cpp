@@ -34,7 +34,7 @@ void Hell::Create() {
 	manager.AddSystem<HitboxCollisionSystem>();
 	manager.AddSystem<ShootableSystem>();
 	manager.AddSystem<DamageSystem>();
-	manager.AddSystem<PickUpSystem>();
+	manager.AddSystem<ItemSystem>();
 	manager.AddSystem<HealthSystem>();
 	manager.AddSystem<RigidBodySystem>();
 	manager.AddSystem<BulletRenderSystem>();
@@ -74,6 +74,14 @@ void Hell::Update() {
 							   ), 
 							   10
 				);
+				CreateGrassItem(manager,
+					V2_double::Random(
+						0,
+						display_size.x,
+						0,
+						display_size.y
+					)
+				);
 				manager.Refresh();
 				timer.timer.Start();
 				engine::RNG<int> wave{ 5,15 };
@@ -86,7 +94,7 @@ void Hell::Update() {
 		manager.UpdateSystem<RigidBodySystem>();
 		manager.UpdateSystem<HitboxCollisionSystem>();
 		manager.UpdateSystem<ShootableSystem>();
-		manager.UpdateSystem<PickUpSystem>();
+		manager.UpdateSystem<ItemSystem>();
 		manager.UpdateSystem<DamageSystem>();
 		manager.UpdateSystem<LifetimeSystem>();
 		manager.UpdateSystem<HealthSystem>();
