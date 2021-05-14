@@ -22,10 +22,10 @@ static ecs::Entity CreateGrass(ecs::Manager& manager, const V2_double& position)
 	grass.AddComponent<TransformComponent>(Transform{ position });
 	grass.AddComponent<SpriteKeyComponent>("grass", sprite_size);
 	auto& hitbox = grass.AddComponent<HitboxComponent>();
-	hitbox.function = &GrassCollision;
+	hitbox.resolution_function = &GrassCollision;
 	grass.AddComponent<ShapeComponent>(AABB(scaled_size));
 	grass.AddComponent<TagComponent>(Hasher::HashCString("grass"));
-	hitbox.ignored_tag_types.push_back(Hasher::HashCString("player"));
+	hitbox.ignored_tags.emplace(Hasher::HashCString("player"));
 
 	return grass;
 }

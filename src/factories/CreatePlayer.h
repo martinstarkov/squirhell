@@ -24,6 +24,6 @@ static ecs::Entity CreatePlayer(ecs::Manager& manager) {
 	player.AddComponent<ShapeComponent>(Circle(radius));
 	player.AddComponent<RangeComponent>((5 + 16 + 16) * Hell::GetScale().x);
 	auto& hitbox = player.AddComponent<HitboxComponent>(V2_int{ 0, 3 });
-	hitbox.ignored_tag_types.push_back(Hasher::HashCString("bullet"));
+	hitbox.ignored_tags.emplace(Hasher::HashCString("bullet"));
 	return player;
 }

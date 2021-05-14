@@ -22,7 +22,7 @@ static ecs::Entity CreateWall(ecs::Manager& manager, const V2_double& position) 
 	wall.AddComponent<TransformComponent>(Transform{ position });
 	wall.AddComponent<SpriteKeyComponent>("hell_wall", sprite_size);
 	auto& hitbox = wall.AddComponent<HitboxComponent>();
-	hitbox.function = &WallCollision;
+	hitbox.resolution_function = &WallCollision;
 	wall.AddComponent<ShapeComponent>(AABB(scaled_size));
 	wall.AddComponent<TagComponent>(Hasher::HashCString("hellwall"));
 
