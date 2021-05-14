@@ -19,17 +19,6 @@ struct SpriteKeyComponent {
 	V2_int sprite_size;
 };
 
-using CollisionFunction = void(*)(ecs::Entity& target, const engine::Manifold& manifold);
-
-struct HitboxComponent {
-	HitboxComponent() = default;
-	HitboxComponent(const V2_int& offset) : offset{ offset } {}
-	V2_int offset;
-	std::vector<ecs::Entity> colliders;
-	std::vector<int> ignored_tag_types;
-	CollisionFunction function{ nullptr };
-};
-
 struct InventoryComponent2 {
 	InventoryComponent2() = default;
 	// key:tag component id of entity, value:pair of entity and item count
