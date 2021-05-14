@@ -5,15 +5,22 @@
 #include "components/Components.h"
 #include "core/Hell.h"
 
-static ecs::Entity CreateBullet(ecs::Manager& manager, double lifetime, const Transform& transform) {
+static ecs::Entity CreateBullet(ecs::Manager& manager, double lifetime, const Transform& transform, bool is_enemy_bullet) {
 	auto bullet = manager.CreateEntity();
 	auto radius = 3;
 	V2_int sprite_size{ 16, 16 };
-	bullet.AddComponent<BulletComponent>(20); // damage
+	if (is_enemy_bullet) {
+		radius = 6;
+		bullet.AddComponent<EnemyBulletComponent>(20); // damage
+		bullet.AddComponent<ColorComponent>(colors::DARK_RED);
+	} else {
+		bullet.AddComponent<BulletComponent>(20); // damage
+		bullet.AddComponent<TagComponent>(Hasher::HashCString("bullet"));
+		bullet.AddComponent<ColorComponent>(colors::BLACK);
+	}
 	bullet.AddComponent<LifetimeComponent>(lifetime);
 	auto& hitbox = bullet.AddComponent<HitboxComponent>();
 	bullet.AddComponent<ShapeComponent>(Circle(radius));
-	bullet.AddComponent<TagComponent>(Hasher::HashCString("bullet"));
 
 	// Calculate offset necessary to center the bullet.
 	//3 5
@@ -26,7 +33,6 @@ static ecs::Entity CreateBullet(ecs::Manager& manager, double lifetime, const Tr
 	auto offset{ offset_from_top_left + distance_to_center - rotated_offset };
 	auto& transform_component = bullet.AddComponent<TransformComponent>(Transform{ transform.position - offset * Hell::GetScale(), transform.rotation });
 
-	bullet.AddComponent<ColorComponent>(colors::BLACK);
 	auto& rigid_body = bullet.AddComponent<RigidBodyComponent>();
 	double speed = 10;
 	rigid_body.body.velocity = speed * V2_double{ std::sin(transform_component.transform.rotation), -std::cos(transform_component.transform.rotation) };

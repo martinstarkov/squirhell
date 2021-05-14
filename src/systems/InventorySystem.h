@@ -5,7 +5,7 @@
 #include "core/Hell.h"
 using namespace engine;
 
-class InventorySystem : public ecs::UESystem<PlayerInputComponent, InventoryComponent> {
+class InventorySystem : public ecs::UESystem<PlayerInputComponent, InventoryComponent2> {
 public:
 	void Update() {
 		auto [entity, player, inventory] = GetEntityAndComponents();

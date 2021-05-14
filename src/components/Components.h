@@ -70,6 +70,15 @@ struct InventoryComponent2 {
 		return it != inventory.end() && it->second.second > 0;
 	}
 
+	int Amount(int item_id) const {
+		auto it = inventory.find(item_id);
+		if (it != inventory.end()) {
+			return  it->second.second;
+		} else {
+			return 0;
+		}
+	}
+
 };
 
 struct HealthComponent {
@@ -127,6 +136,12 @@ struct BulletComponent {
 	int damage{ 0 };
 };
 
+struct EnemyBulletComponent {
+	EnemyBulletComponent() = default;
+	EnemyBulletComponent(int damage) : damage{ damage } {}
+	int damage{ 0 };
+};
+
 struct ShootableComponent {
 	ShootableComponent() = default;
 };
@@ -134,6 +149,12 @@ struct ShootableComponent {
 struct EnemyComponent {
 	EnemyComponent() = default;
 	EnemyComponent(int damage) : damage{ damage } {}
+	int damage{ 0 };
+};
+
+struct RangedEnemyComponent {
+	RangedEnemyComponent() = default;
+	RangedEnemyComponent(int damage) : damage{ damage } {}
 	int damage{ 0 };
 };
 

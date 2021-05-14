@@ -85,6 +85,10 @@ public:
 					health.health_points -= collider.GetComponent<EnemyComponent>().damage;
 					collider.Destroy();
 				}
+				else if (collider.HasComponent<EnemyBulletComponent>()) {
+					health.health_points -= collider.GetComponent<EnemyBulletComponent>().damage;
+					collider.Destroy();
+				}
 			}
 			hitbox.colliders.clear();
 		}

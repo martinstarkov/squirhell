@@ -6,6 +6,7 @@
 #include "CreateBullet.h"
 #include "CreateDeathScreen.h"
 #include "CreateEnemy.h"
+#include "CreateRangedEnemy.h"
 #include "CreatePlayer.h"
 #include "CreateWall.h"
 #include "CreateGrass.h"

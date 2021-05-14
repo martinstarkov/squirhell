@@ -21,6 +21,7 @@ void Hell::Create() {
 	TextureManager::Load("player", "resources/player.png");
 	TextureManager::Load("acorn", "resources/acorn.png");
 	TextureManager::Load("enemy", "resources/enemy.png");
+	TextureManager::Load("ranged_enemy", "resources/ranged_enemy.png");
 	TextureManager::Load("ammopack", "resources/ammopack.png");
 	TextureManager::Load("healthpack", "resources/healthpack.png");
 	TextureManager::Load("hell_wall", "resources/hellwall.png");
@@ -30,6 +31,7 @@ void Hell::Create() {
 	manager.AddSystem<FiringSystem>();
 	manager.AddSystem<MovementSystem>();
 	manager.AddSystem<AIMovementSystem>();
+	manager.AddSystem<RangedEnemySystem>();
 	manager.AddSystem<SpriteRenderSystem>();
 	manager.AddSystem<HitboxCollisionSystem>();
 	manager.AddSystem<ShootableSystem>();
@@ -38,6 +40,7 @@ void Hell::Create() {
 	manager.AddSystem<HealthSystem>();
 	manager.AddSystem<RigidBodySystem>();
 	manager.AddSystem<BulletRenderSystem>();
+	manager.AddSystem<EnemyBulletRenderSystem>();
 	manager.AddSystem<LifetimeSystem>();
 	manager.AddSystem<StatDisplaySystem>();
 	manager.AddSystem<DeathScreenRenderSystem>();
@@ -54,7 +57,7 @@ void Hell::Update() {
 		if (player.HasComponent<WaveTimerComponent>()) {
 			auto& timer = player.GetComponent<WaveTimerComponent>();
 			if (timer.timer.ElapsedSeconds() >= timer.next) {
-				engine::RNG<int> rng{ 3,8 };
+				engine::RNG<int> rng{ 2,5 };
 				auto enemies = rng();
 				for (auto i = 0; i < enemies; ++i) {
 					CreateEnemy(manager, V2_double::Random(
@@ -64,6 +67,13 @@ void Hell::Update() {
 						display_size.y
 					));
 				}
+
+				CreateRangedEnemy(manager, V2_double::Random(
+					0,
+					display_size.x,
+					0,
+					display_size.y
+				));
 		
 				CreateAmmoPack(manager, 
 							   V2_double::Random(
@@ -90,6 +100,7 @@ void Hell::Update() {
 		}
 		manager.UpdateSystem<FiringSystem>();
 		manager.UpdateSystem<MovementSystem>();
+		manager.UpdateSystem<RangedEnemySystem>();
 		manager.UpdateSystem<AIMovementSystem>();
 		manager.UpdateSystem<RigidBodySystem>();
 		manager.UpdateSystem<HitboxCollisionSystem>();
@@ -104,6 +115,7 @@ void Hell::Update() {
 
 void Hell::Render() {
 	manager.UpdateSystem<BulletRenderSystem>();
+	manager.UpdateSystem<EnemyBulletRenderSystem>();
 	manager.UpdateSystem<SpriteRenderSystem>();
 	manager.UpdateSystem<StatDisplaySystem>();
 	manager.UpdateSystem<PlacementRenderSystem>();

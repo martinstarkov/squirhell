@@ -27,6 +27,7 @@ public:
 					}
 					entity.Destroy();
 				} else {
+					PrintLine("Loading Death Screen");
 					CreateDeathScreen(GetManager());
 				}
 			} else if (health.health_points > health.max_health) {

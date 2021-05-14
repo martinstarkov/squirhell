@@ -9,6 +9,7 @@
 
 #include "FiringSystem.h"
 #include "AIMovementSystem.h"
+#include "RangedEnemySystem.h"
 #include "HealthSystem.h"
 #include "StatDisplaySystem.h"
 #include "DeathScreenRenderSystem.h"
