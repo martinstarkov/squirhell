@@ -21,8 +21,9 @@ struct SpriteKeyComponent {
 
 struct InventoryComponent2 {
 	InventoryComponent2() = default;
-	// key:tag component id of entity, value:pair of entity and item count
-	std::unordered_map<int, std::pair<ecs::Entity, int>> inventory;
+	// Key: Tag component id of entity.
+	// Value: Pair of entity and item count.
+	std::unordered_map<std::size_t, std::pair<ecs::Entity, int>> inventory;
 
 	void Add(ecs::Entity& item) {
 		assert(item.HasComponent<TagComponent>() && "Cannot add item without TagComponent id to inventory");
@@ -40,7 +41,7 @@ struct InventoryComponent2 {
 		}
 	}
 
-	void Remove(int item_id) {
+	void Remove(std::size_t item_id) {
 		auto it = inventory.find(item_id);
 		// inventory contains item
 		if (it != inventory.end()) {
@@ -54,12 +55,12 @@ struct InventoryComponent2 {
 		}
 	}
 
-	bool Has(int item_id) const {
+	bool Has(std::size_t item_id) const {
 		auto it = inventory.find(item_id);
 		return it != inventory.end() && it->second.second > 0;
 	}
 
-	int Amount(int item_id) const {
+	int Amount(std::size_t item_id) const {
 		auto it = inventory.find(item_id);
 		if (it != inventory.end()) {
 			return  it->second.second;

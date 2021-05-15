@@ -34,7 +34,7 @@ static ecs::Entity CreateGrassItem(ecs::Manager& manager, const V2_double& posit
 	auto item = manager.CreateEntity();
 
 	V2_int sprite_size{ 8, 8 };
-	auto radius = sprite_size.x / 2 * Hell::GetScale().x;
+	auto radius = sprite_size.x / 2.0 * Hell::GetScale().x;
 	item.AddComponent<ItemComponent>();
 	item.AddComponent<TagComponent>(Hasher::HashCString("grass"));
 	item.AddComponent<PickUpComponent>();

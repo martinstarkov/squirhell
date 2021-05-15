@@ -22,7 +22,7 @@ static ecs::Entity CreatePlayer(ecs::Manager& manager) {
 	player.AddComponent<TagComponent>(Hasher::HashCString("player"));
 	player.AddComponent<RigidBodyComponent>();
 	player.AddComponent<ShapeComponent>(Circle(radius));
-	player.AddComponent<RangeComponent>((5 + 16 + 16) * Hell::GetScale().x);
+	player.AddComponent<RangeComponent>((5.0 + 16.0 + 16.0) * Hell::GetScale().x);
 	auto& hitbox = player.AddComponent<HitboxComponent>(V2_int{ 0, 3 });
 	hitbox.ignored_tags.emplace(Hasher::HashCString("bullet"));
 	return player;
