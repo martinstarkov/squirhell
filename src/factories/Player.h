@@ -4,9 +4,14 @@
 
 #include "factories/Bullet.h"
 
-struct PlayerSpeed {
-	PlayerSpeed(const V2_double& speed) : speed{ speed } {}
-	V2_double speed;
+struct PlayerProperties {
+	PlayerProperties() = delete;
+	PlayerProperties(const V2_double& acceleration,
+					 const V2_double& terminal_velocity) : 
+		acceleration{ acceleration },
+		terminal_velocity{ terminal_velocity } {}
+	V2_double acceleration;
+	V2_double terminal_velocity;
 };
 
 struct GunComponent {
@@ -24,20 +29,27 @@ inline ecs::Entity CreatePlayer(ecs::Manager& manager, const V2_double& position
 	player.AddComponent<ptgn::PlayerComponent>();
 	player.AddComponent<ptgn::RenderComponent>();
 	player.AddComponent<ptgn::ColorComponent>(ptgn::colors::BLUE);
-	player.AddComponent<PlayerSpeed>(V2_double{ 5, 5 });
+	player.AddComponent<PlayerProperties>(V2_double{ 1.5, 1.5 }, V2_double{ 5, 5 });
 	auto& gun{ player.AddComponent<GunComponent>() };
-	gun.reload = ptgn::Countdown(ptgn::milliseconds{ 0 });
+	gun.reload = ptgn::Countdown(ptgn::milliseconds{ 100 });
 
 	return player;
+}
+
+inline void AdjustPlayerVelocity(ecs::Entity& player) {
+	auto [rigid_body, properties] = player.GetComponents<ptgn::RigidBodyComponent, PlayerProperties>();
+	auto& velocity{ rigid_body.body.velocity };
+	velocity *= 0.9;
+	velocity = ptgn::math::Clamp(velocity, -properties.terminal_velocity, properties.terminal_velocity);
 }
 
 inline void DrawGun(ecs::Entity& player) {
 	auto [transform, shape] = player.GetComponents<ptgn::TransformComponent, ptgn::ShapeComponent>();
 	auto center{ shape.shape->GetCenter(transform.transform.position) };
-	auto mouse_position{ ptgn::InputHandler::GetMousePosition() };
+	auto mouse_position{ ptgn::InputHandler::GetMouseWorldPosition() };
 	auto direction{ mouse_position - center };
 	auto destination{ center + direction.Normalized() * shape.shape->CastTo<ptgn::Circle>().radius };
-	ptgn::ScreenRenderer::DrawLine(center, destination, ptgn::colors::WHITE);
+	ptgn::WorldRenderer::DrawLine(center, destination, ptgn::colors::WHITE);
 }
 
 inline void DrawPlayer(ecs::Entity& player) {
@@ -45,40 +57,41 @@ inline void DrawPlayer(ecs::Entity& player) {
 }
 
 inline void PlayerShooting(ecs::Entity& player) {
-	auto [transform, shape, gun] = player.GetComponents<ptgn::TransformComponent, ptgn::ShapeComponent, GunComponent>();
+	auto [transform, shape, gun, rigid_body] = player.GetComponents<ptgn::TransformComponent, ptgn::ShapeComponent, GunComponent, ptgn::RigidBodyComponent>();
 	auto center{ shape.shape->GetCenter(transform.transform.position) };
 	bool activated{ ptgn::InputHandler::MousePressed(ptgn::Mouse::LEFT) };
-	auto mouse_position{ ptgn::InputHandler::GetMousePosition() };
+	auto mouse_position{ ptgn::InputHandler::GetMouseWorldPosition() };
 	auto direction{ mouse_position - center };
 	if (activated && (gun.reload.Finished() || !gun.reload.IsRunning())) {
 		auto bullet = CreateBullet(player.GetManager(), center);
 		gun.reload.Start();
 		player.GetManager().Refresh();
 		auto& bullet_rigid_body{ bullet.GetComponent<ptgn::RigidBodyComponent>().body };
-		bullet_rigid_body.velocity = direction.Normalized() * bullet.GetComponent<BulletProperties>().speed;
+		bullet_rigid_body.velocity = rigid_body.body.velocity + direction.Normalized() * bullet.GetComponent<BulletProperties>().speed;
 	}
 }
 
 inline void PlayerMovement(ecs::Entity& player) {
 	// Read player inputs.
-	auto [rigid_body, speed] = player.GetComponents<ptgn::RigidBodyComponent, PlayerSpeed>();
+	auto [rigid_body, properties] = player.GetComponents<ptgn::RigidBodyComponent, PlayerProperties>();
 	bool w{ ptgn::InputHandler::KeyPressed(ptgn::Key::W) };
 	bool a{ ptgn::InputHandler::KeyPressed(ptgn::Key::A) };
 	bool s{ ptgn::InputHandler::KeyPressed(ptgn::Key::S) };
 	bool d{ ptgn::InputHandler::KeyPressed(ptgn::Key::D) };
+	auto& acceleration{ rigid_body.body.acceleration };
 	if (a && !d) {
-		rigid_body.body.velocity.x = -speed.speed.x;
+		acceleration.x = -properties.acceleration.x;
 	} else if (!a && d) {
-		rigid_body.body.velocity.x = speed.speed.x;
+		acceleration.x = properties.acceleration.x;
 	} else {
-		rigid_body.body.velocity.x = 0;
+		acceleration.x = 0;
 	}
 	if (w && !s) {
-		rigid_body.body.velocity.y = -speed.speed.y;
+		acceleration.y = -properties.acceleration.y;
 	} else if (!w && s) {
-		rigid_body.body.velocity.y = speed.speed.y;
+		acceleration.y = properties.acceleration.y;
 	} else {
-		rigid_body.body.velocity.y = 0;
+		acceleration.y = 0;
 	}
 }
 
