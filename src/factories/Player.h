@@ -95,7 +95,18 @@ inline void PlayerMovement(ecs::Entity& player) {
 	}
 }
 
+inline void PlayerCamera(ecs::Entity& player) {
+	auto& camera{ ptgn::WorldRenderer::GetActiveCamera() };
+	if (ptgn::InputHandler::KeyPressed(ptgn::Key::Q)) {
+		camera.ZoomOut();
+	}
+	if (ptgn::InputHandler::KeyPressed(ptgn::Key::E)) {
+		camera.ZoomIn();
+	}
+}
+
 inline void UpdatePlayer(ecs::Entity& player) {
+	PlayerCamera(player);
 	PlayerMovement(player);
 	PlayerShooting(player);
 }

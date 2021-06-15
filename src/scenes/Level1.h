@@ -27,11 +27,17 @@ public:
 
 		camera.CenterOn(player);
 
+		chunk_manager.CenterOn(player.GetComponent<ptgn::TransformComponent>().transform.position, { 3, 3 });
+		chunk_manager.Update();
+
 		manager.Refresh();
 	}
+	ptgn::ChunkManager chunk_manager{ { 16, 16 }, { 16, 16 } };
 	virtual void Render() override final {
 		// Render system.
 		manager.ForEachEntityWith<ptgn::TransformComponent, ptgn::ShapeComponent, ptgn::RenderComponent>(ptgn::DrawShapeSystem<ptgn::WorldRenderer>{});
+
+		chunk_manager.Render();
 
 		DrawPlayer(player);
 
