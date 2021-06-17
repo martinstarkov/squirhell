@@ -8,6 +8,7 @@ class Level1 : public ptgn::Scene {
 public:
 	ecs::Entity player;
 	virtual void Init() override final {
+		ptgn::LevelManager::Load("level1", "resources/levels/level1.png");
 		player = CreatePlayer(manager, { 300, 300 });
 
 		manager.Refresh();
@@ -27,12 +28,15 @@ public:
 
 		camera.CenterOn(player);
 
-		chunk_manager.CenterOn(player.GetComponent<ptgn::TransformComponent>().transform.position, { 3, 3 });
+		auto player_position = player.GetComponent<ptgn::TransformComponent>().transform.position;
+		auto player_center = player.GetComponent<ptgn::ShapeComponent>().shape->GetCenter(player_position);
+
+		chunk_manager.CenterOn(player_center);
 		chunk_manager.Update();
 
 		manager.Refresh();
 	}
-	ptgn::ChunkManager chunk_manager{ { 16, 16 }, { 16, 16 } };
+	ptgn::ChunkManager chunk_manager{ { 16, 16 }, { 16, 16 }, { 20, 20 }, { 3, 3 }, { 3, 3 } };
 	virtual void Render() override final {
 		// Render system.
 		manager.ForEachEntityWith<ptgn::TransformComponent, ptgn::ShapeComponent, ptgn::RenderComponent>(ptgn::DrawShapeSystem<ptgn::WorldRenderer>{});

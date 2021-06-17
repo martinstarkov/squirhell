@@ -15,10 +15,12 @@ file(GLOB_RECURSE SQUIRHELL_FILES CONFIGURE_DEPENDS LIST_DIRECTORIES false
 
 add_executable(${PROJECT_NAME} ${SQUIRHELL_FILES})
 
-file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/resources/" DESTINATION "${PROJECT_BINARY_DIR}/resources")
-
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/../protegon" binary_dir)
 add_protegon_to(${PROJECT_NAME})
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+				   COMMAND ${CMAKE_COMMAND} -E copy_directory
+                   "${CMAKE_CURRENT_SOURCE_DIR}/resources/" "${PROJECT_BINARY_DIR}/resources")
 
 if (WIN32)
     foreach(_source IN ITEMS ${SQUIRHELL_FILES})

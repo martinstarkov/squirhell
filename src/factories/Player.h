@@ -22,7 +22,7 @@ struct GunComponent {
 inline ecs::Entity CreatePlayer(ecs::Manager& manager, const V2_double& position) {
 	auto player{ manager.CreateEntity() };
 	player.AddComponent<ptgn::TransformComponent>(ptgn::Transform{ position });
-	player.AddComponent<ptgn::ShapeComponent>(ptgn::Circle{ 20 });
+	player.AddComponent<ptgn::ShapeComponent>(ptgn::Circle{ 8 });
 	player.AddComponent<ptgn::RigidBodyComponent>();
 	player.AddComponent<ptgn::HitboxComponent>();
 	player.AddComponent<ptgn::InputComponent>();
@@ -96,7 +96,7 @@ inline void PlayerMovement(ecs::Entity& player) {
 }
 
 inline void PlayerCamera(ecs::Entity& player) {
-	auto& camera{ ptgn::WorldRenderer::GetActiveCamera() };
+	auto& camera{ ptgn::SceneManager::GetActiveCamera() };
 	if (ptgn::InputHandler::KeyPressed(ptgn::Key::Q)) {
 		camera.ZoomOut();
 	}
